@@ -14,8 +14,8 @@
       margin: 20px;
     }
     canvas {
-        width: 800px;
-        height: 600px;
+      width: 800px;
+      height: 600px;
       margin: 20px auto;
     }
   </style>
@@ -122,7 +122,7 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const userId = user.uid;
-        const gameName = "game2"; // Specify the game name
+        const gameName = "game1"; // Specify the game name
         fetchScores(userId, gameName); // Fetch and display scores
       } else {
         console.log("User not authenticated.");

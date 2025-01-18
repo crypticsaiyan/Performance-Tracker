@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Score Chart</title>
+  <title>Game Improvement Line Graph</title>
   <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js"></script>
@@ -14,15 +14,16 @@
       margin: 20px;
     }
     canvas {
-        width: 800px;
-        height: 600px;
+      width: 1200px;
+      max-height: 400px;
       margin: 20px auto;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <h1>Game Score Chart</h1>
-  <canvas id="scoreChart"></canvas>
+  <h1>Game Improvement Line Graph</h1>
+  <canvas id="improvementChart"></canvas>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
@@ -44,22 +45,24 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Initialize Chart.js
-    const ctx = document.getElementById('scoreChart').getContext('2d');
-    const scoreChart = new Chart(ctx, {
-      type: 'bar',
+    // Initialize Chart.js for Line Graph
+    const ctx = document.getElementById('improvementChart').getContext('2d');
+    const improvementChart = new Chart(ctx, {
+      type: 'line',
       data: {
-        labels: [], // Timestamps or indices
+        labels: [], // Attempts (e.g., Attempt 1, Attempt 2, ...)
         datasets: [{
-          label: 'Game Scores',
-          data: [],
-          backgroundColor: [], // Dynamically set colors based on score
-          borderColor: 'rgba(0, 0, 0, 1)',
-          borderWidth: 1
+          label: 'Improvement (%)',
+          data: [], // Improvement values
+          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderWidth: 2,
+          fill: true,
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false, // Ensures the graph can expand to a larger size
         plugins: {
           legend: {
             display: true,
@@ -75,17 +78,22 @@
           y: {
             title: {
               display: true,
-              text: 'Score'
+              text: 'Improvement (%)'
             },
             beginAtZero: true,
-            suggestedMax: 10
+            ticks: {
+              stepSize: 10, // Step size between divisions
+            },
+            grid: {
+              color: 'rgba(200, 200, 200, 0.5)', // Custom grid line color
+            }
           }
         }
       }
     });
 
-    // Function to fetch scores from Firestore and update the chart
-    async function fetchScores(userId, gameName) {
+    // Function to fetch scores and calculate improvement
+    async function fetchImprovement(userId, gameName) {
       try {
         const gameDocRef = doc(db, "users", userId, gameName, "gameData");
 
@@ -95,35 +103,39 @@
             const gameData = docSnap.data();
             const scores = gameData.scores || [];
 
-            // Generate color coding based on scores
-            const backgroundColors = scores.map(score => {
-              if (score >= 8) return 'rgba(75, 192, 75, 0.6)'; // Green
-              if (score >= 5 && score < 8) return 'rgba(255, 205, 86, 0.6)'; // Yellow
-              return 'rgba(255, 99, 132, 0.6)'; // Red
+            // Calculate improvement values
+            const improvements = [];
+            scores.forEach((score, index) => {
+              if (index === 0) {
+                improvements.push(0); // First attempt starts at 0% improvement
+              } else {
+                const previousScore = scores[index - 1];
+                const improvement = ((score - previousScore) / previousScore) * 100;
+                improvements.push(improvement);
+              }
             });
 
             // Update the chart data
-            scoreChart.data.labels = scores.map((_, index) => `Attempt ${index}`);
-            scoreChart.data.datasets[0].data = scores;
-            scoreChart.data.datasets[0].backgroundColor = backgroundColors;
+            improvementChart.data.labels = scores.map((_, index) => `Attempt ${index + 1}`);
+            improvementChart.data.datasets[0].data = improvements;
 
             // Refresh the chart
-            scoreChart.update();
+            improvementChart.update();
           } else {
             console.log("No data found for this game.");
           }
         });
       } catch (error) {
-        console.error("Error fetching scores:", error.message);
+        console.error("Error fetching improvement data:", error.message);
       }
     }
 
-    // Listen for user authentication and fetch scores
+    // Listen for user authentication and fetch improvement data
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const userId = user.uid;
-        const gameName = "game2"; // Specify the game name
-        fetchScores(userId, gameName); // Fetch and display scores
+        const gameName = "game3"; // Specify the game name
+        fetchImprovement(userId, gameName); // Fetch and display improvement data
       } else {
         console.log("User not authenticated.");
       }
