@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Score Chart</title>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    canvas {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Game Score Chart</h1>
+  <canvas id="scoreChart"></canvas>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOT2krZGgCIdH3UoBA3FFV984rKnfnIEk",
+      authDomain: "agglomeration-project.firebaseapp.com",
+      projectId: "agglomeration-project",
+      storageBucket: "agglomeration-project.firebasestorage.app",
+      messagingSenderId: "116434044665",
+      appId: "1:116434044665:web:9ebef05a798ba91e700428",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Initialize Chart.js
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    const scoreChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [], // Timestamps or indices
+        datasets: [{
+          label: 'Game Scores',
+          data: [],
+          backgroundColor: [], // Dynamically set colors based on score
+          borderColor: 'rgba(0, 0, 0, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Attempts'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Score'
+            },
+            beginAtZero: true,
+            suggestedMax: 10
+          }
+        }
+      }
+    });
+
+    // Function to fetch scores from Firestore and update the chart
+    async function fetchScores(userId, gameName) {
+      try {
+        const gameDocRef = doc(db, "users", userId, gameName, "gameData");
+
+        // Set up a real-time listener
+        onSnapshot(gameDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const gameData = docSnap.data();
+            const scores = gameData.scores || [];
+
+            // Generate color coding based on scores
+            const backgroundColors = scores.map(score => {
+              if (score >= 8) return 'rgba(75, 192, 75, 0.6)'; // Green
+              if (score >= 5 && score < 8) return 'rgba(255, 205, 86, 0.6)'; // Yellow
+              return 'rgba(255, 99, 132, 0.6)'; // Red
+            });
+
+            // Update the chart data
+            scoreChart.data.labels = scores.map((_, index) => `Attempt ${index}`);
+            scoreChart.data.datasets[0].data = scores;
+            scoreChart.data.datasets[0].backgroundColor = backgroundColors;
+
+            // Refresh the chart
+            scoreChart.update();
+          } else {
+            console.log("No data found for this game.");
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching scores:", error.message);
+      }
+    }
+
+    // Listen for user authentication and fetch scores
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userId = user.uid;
+        const gameName = "game1"; // Specify the game name
+        fetchScores(userId, gameName); // Fetch and display scores
+      } else {
+        console.log("User not authenticated.");
+      }
+    });
+  </script>
+</body>
+</html>
