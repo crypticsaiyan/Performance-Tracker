@@ -28,7 +28,7 @@ loginbtn.addEventListener("click", (event) => {
     
     alert("signedin")
     const user = userCredential.user;
-   
+    window.location.href = "../landing.html";
   })
   .catch((error) => {
     const errorCode = error.code;

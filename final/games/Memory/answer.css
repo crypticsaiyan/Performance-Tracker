@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 :root{
     /* background-color: black; */
 }
@@ -25,8 +26,8 @@ video{
 /* Time-Over Window Styling */
 #timeOverWindow {
     padding: 20px;
-    background-color: #f8d7da;
-    border: 2px solid #f5c6cb;
+    background-color: black;
+    /* border: 2px solid #f5c6cb; */
     border-radius: 10px;
     text-align: center;
     margin-top: 20px;
@@ -45,12 +46,91 @@ video{
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: transparent;
     color: white;
-    border: none;
+    border: 2px solid white;
     border-radius: 5px;
 }
 
 #closeButton:hover {
-    background-color: #45a049;
+    background-color: grey;
 }
+body {
+  font-family: "JetBrains Mono", serif;
+  font-weight: 500;
+  font-style: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  flex-direction: column;
+  width: 50%;
+}
+html {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #04253b;
+  color: white;
+}
+
+.question-box{
+    width: 400px;
+}
+
+input {
+    font-family: "JetBrains Mono", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.828);
+}
+
+input:hover {
+    box-shadow: 0 0 5px;
+}
+
+button {
+    font-family: "JetBrains Mono", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+}
+
+button:hover {
+    background-color: white;
+    color: #04253b;
+}
+
+#input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.back {
+    font-size: 40px;
+  }
+  
+  
+ span a {
+    text-decoration: none;
+    color: white;
+  }

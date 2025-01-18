@@ -166,6 +166,7 @@ const riddles = [
     { question: "38 × 2", answer: 76 },
     { question: "72 ÷ 12", answer: 6 }
 ];
+gameTimeout();
 
 const questionElement = document.getElementById("question");
 const answerInput = document.getElementById("answer");
@@ -198,7 +199,7 @@ function endGame()
   questionElement.innerHTML = ""; // Clear the question
   answerInput.remove() // Disable input field
   checkButton.remove() // Disable button
-  finalResultElement.innerHTML = `You answered ${correctCount} out of ${maxAttempts} questions correctly.`; // Display correct answers
+  finalResultElement.innerHTML = `You answered ${correctCount} out of ${totalAttempts} questions correctly.`; // Display correct answers
   appendScoreToGame(userId,"game2", correctCount)
   
 
@@ -230,3 +231,10 @@ checkButton.addEventListener("click", function () {
     endGame(); // End the game when total attempts reach maxAttempts
   }
 });
+
+function gameTimeout()
+{
+  setTimeout(() => {
+  endGame(); // Automatically end the game when the time runs out
+}, 15000);
+}
