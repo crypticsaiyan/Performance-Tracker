@@ -69,7 +69,7 @@ const result = document.getElementById('result');
 const startButton = document.getElementById('startTest');
 
 const gridSize = 25; // 5x5 grid
-const cellColors = ['grey', 'green']; // Default and target color
+const cellColors = ['grey', '#5abe21']; // Default and target color
 let activeCell = -1;
 let reactionTime = [];
 let startTime;
