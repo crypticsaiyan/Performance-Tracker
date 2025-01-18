@@ -1,0 +1,56 @@
+:root{
+    /* background-color: black; */
+}
+video{
+    width: 1000px;
+}
+.hidden {
+    display: none; /* Hidden by default */
+}
+.block {
+    display: flex; /* Hidden by default */
+}
+#next{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+#input{
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Time-Over Window Styling */
+#timeOverWindow {
+    padding: 20px;
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+    position:absolute;
+    width: 96vw;
+    height: 90vh;
+    /* display: flex; */
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+}
+
+#closeButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#closeButton:hover {
+    background-color: #45a049;
+}
