@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="login.css" />
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo.png" />
+  </head>
+
+  <body>
+    <!-- <nav id="top">
+      <div class="logo">
+         <img src="assets/images/orbit.png" alt="" />LOGO
+      </div>
+      <div class="right">
+        <ul>
+          <li><a href="#top">Home</a></li>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#contact">Contact Me</a></li>
+          <li>
+            <img
+              src="assets/images/night-mode.png"
+              alt=""
+              width="30px"
+              id="theme"
+            />
+          </li>
+        </ul>
+      </div>
+    </nav> -->
+    <main>
+      <div class="main">
+        <div class="dark"></div>
+        <div class="wrapper">
+          <form action="#" method="post">
+              <h1>Login</h1>
+              <div class="input-box form-group">
+                  <input type="email" placeholder="Email" id="email" required>
+                  <i class='bx bx-envelope'></i>
+              </div>
+              <div class="input-box form-group">
+                  <input type="password" placeholder="Password" id="password" required>
+                  <img class='bx bx-lock' id="lock" src="lock.png"></img>
+              </div>
+              <div class="remember-forgot">
+                  <label for="remember">
+                      <input type="checkbox" id="remember"> Remember me
+                  </label>
+                  <a href="#" id="reset">Forgot password?</a>
+              </div>
+              <button type="submit" class="btn login-btn" id="submit">Login</button>
+              <div class="register-link">
+                  <p>Don't have an account? <a href="signup.html">Sign-Up Now</a></p>
+              </div>
+          </form>
+      </div>
+      </div>
+    </main>
+    <script type="module" src="login.js" defer></script>
+  </body>
+</html>

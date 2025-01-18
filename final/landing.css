@@ -150,3 +150,7 @@ nav div ul li img {
     gap: 10px;
     flex-wrap: wrap;
   }
+
+  html, body {
+    overflow: hidden;
+}
