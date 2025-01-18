@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Performance Gauge</title>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    canvas {
+      max-width: 400px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Game Performance Gauge</h1>
+  <canvas id="gaugeChart"></canvas>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOT2krZGgCIdH3UoBA3FFV984rKnfnIEk",
+      authDomain: "agglomeration-project.firebaseapp.com",
+      projectId: "agglomeration-project",
+      storageBucket: "agglomeration-project.firebasestorage.app",
+      messagingSenderId: "116434044665",
+      appId: "1:116434044665:web:9ebef05a798ba91e700428",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Initialize Chart.js for Gauge
+    const ctx = document.getElementById('gaugeChart').getContext('2d');
+    const gaugeChart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: 0, // Initial value (will be updated dynamically)
+          data: [0, 5, 8, 10], // Gauge segments
+          backgroundColor: ['red', 'yellow', 'green'], // Color zones
+          borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false, // Disable tooltips for a cleaner display
+          }
+        },
+        layout: {
+          padding: {
+            top: 20,
+          },
+        },
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: "black",
+        },
+        valueLabel: {
+          display: true,
+          formatter: Math.round,
+          font: {
+            size: 16,
+          }
+        },
+        scale: {
+          display: true,
+          ticks: {
+            stepSize: 2, // Mark every 2 steps on the gauge
+            font: {
+              size: 12,
+            }
+          }
+        }
+      }
+    });
+
+    // Function to fetch the latest score and update the gauge chart
+    async function updateGauge(userId, gameName) {
+      try {
+        const gameDocRef = doc(db, "users", userId, gameName, "gameData");
+
+        // Set up a real-time listener
+        onSnapshot(gameDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const gameData = docSnap.data();
+            const scores = gameData.scores || [];
+
+            if (scores.length > 0) {
+              const latestScore = scores[scores.length - 1]; // Get the latest score
+              gaugeChart.data.datasets[0].value = latestScore; // Update the gauge value
+              gaugeChart.update(); // Refresh the chart
+            }
+          } else {
+            console.log("No data found for this game.");
+          }
+        });
+      } catch (error) {
+        console.error("Error updating gauge chart:", error.message);
+      }
+    }
+
+    // Listen for user authentication and update the gauge chart
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userId = user.uid;
+        const gameName = "game1"; // Specify the game name
+        updateGauge(userId, gameName); // Fetch and update the gauge chart
+      } else {
+        console.log("User not authenticated.");
+      }
+    });
+  </script>
+</body>
+</html>
