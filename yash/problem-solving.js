@@ -81,6 +81,8 @@ const riddles = [
     answerInput.disabled = true; // Disable input field
     checkButton.disabled = true; // Disable button
     finalResultElement.innerHTML = `You answered ${correctCount} out of ${maxAttempts} questions correctly.`; // Display correct answers
+    document.getElementById("answer").style.display = "none";
+    document.getElementById("Check").style.display = "none";
   }
   
   // Initialize with a random question
