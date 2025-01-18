@@ -1,3 +1,69 @@
+// Function to append a score to the array of a specific game
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+import { getFirestore, updateDoc, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDOT2krZGgCIdH3UoBA3FFV984rKnfnIEk",
+  authDomain: "agglomeration-project.firebaseapp.com",
+  projectId: "agglomeration-project",
+  storageBucket: "agglomeration-project.firebasestorage.app",
+  messagingSenderId: "116434044665",
+  appId: "1:116434044665:web:9ebef05a798ba91e700428",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let userId;
+onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          userId = user.uid;
+        }
+         else {
+          console.log("User not authenticated");
+        }
+      });
+   
+/**
+ * Appends a score to the array of a specific game, allowing duplicate values.
+ * @param {string} userId - The user's unique ID.
+ * @param {string} gameName - The name of the game (e.g., 'game1').
+ * @param {number} score - The score to append to the game's score array.
+ */
+async function appendScoreToGame(userId, gameName, score) {
+  try {
+    // Reference to the specific game's document in the user's collection
+    const gameDocRef = doc(db, "users", userId, gameName, "gameData");
+
+    // Fetch the current document to get the existing scores
+    const gameDocSnap = await getDoc(gameDocRef);
+
+    if (gameDocSnap.exists()) {
+      // Get the existing scores array or initialize it
+      const gameData = gameDocSnap.data();
+      const currentScores = gameData.scores || [];
+
+      // Append the new score
+      currentScores.push(score);
+
+      // Update the document with the new scores array
+      await setDoc(gameDocRef, { scores: currentScores });
+
+      console.log(`Score ${score} added to ${gameName} for user ${userId}`);
+    } else {
+      // If the document does not exist, create it with the new score
+      await setDoc(gameDocRef, { scores: [score] });
+      console.log(`Score ${score} added to a new ${gameName} document for user ${userId}`);
+    }
+  } catch (error) {
+    console.error("Error adding score:", error.message);
+  }
+}
+
+
 const riddles = [
     { question: "24 + 18", answer: 42 },
     { question: "56 - 29", answer: 27 },
@@ -133,6 +199,9 @@ function endGame()
   answerInput.remove() // Disable input field
   checkButton.remove() // Disable button
   finalResultElement.innerHTML = `You answered ${correctCount} out of ${maxAttempts} questions correctly.`; // Display correct answers
+  appendScoreToGame(userId,"game2", correctCount)
+  
+
 }
 
 // Initialize with a random question
