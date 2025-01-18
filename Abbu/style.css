@@ -1,0 +1,16 @@
+#words {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* 5 equal-width columns */
+    grid-template-rows: repeat(2, 100px);
+    /* 2 rows with a height of 100px each */
+    gap: 10px;
+    align-items: center;
+    justify-items: center;
+    background-color: beige;
+}
+#words>*{
+    border: 2px solid palevioletred;
+    margin: 4px;
+    padding: 7px;
+}
