@@ -2,7 +2,6 @@ const riddles = [
     { question: "What gets smaller every time it takes a bath?", answer: "Soap" },
     { question: "I'm not a blanket, yet I cover the ground; a crystal from heaven that doesn't make a sound. What am I?", answer: "Snowflake" },
     { question: "I'm sweet and cold with a stick to hold; a treat on a hot day, worth more than gold. What am I?", answer: "icecream" },
-   
     { question: "What has keys but can't open locks?", answer: "piano" },
     { question: "I have a neck, but no head. I have two arms, but no hands. What am I?", answer: "shirt" },
     { question: "What word contains 26 letters but only has three syllables?", answer: "Alphabet" },
@@ -19,13 +18,36 @@ const riddles = [
     { question: "What has a face and two hands but no arms or legs?", answer: "Clock" },
     { question: "What has a head, a tail, is brown, and has no legs?", answer: "Penny" },
     { question: "What has a foot but no legs?", answer: "Ruler" },
-    
     { question: "What has a thumb and four fingers but is not alive?", answer: "glove" },
     { question: "What has a ring but no finger?", answer: "Telephone" },
     { question: "What has one eye but can’t see?", answer: "Needle" },
     { question: "What has a bed but never sleeps?", answer: "River" },
-    { question: "What has a bank but no money?", answer: "River" }
-
+    { question: "What has a bank but no money?", answer: "River" },
+    {
+      question: "What comes once in a minute, twice in a moment, but never in a thousand years?",
+      answer: "M"
+    },
+    {
+      question: "What can travel around the world while staying in the corner?",
+      answer: "Stamp"
+    },
+    {
+      question: "What gets wetter as it dries?",
+      answer: "Towel"
+    },
+    {
+      question: "What can you catch but not throw?",
+      answer: "Cold"
+    },
+    {
+      question: "What runs, but never walks, has a bed, but never sleeps?",
+      answer: "River"
+    },
+    {
+      question: "What is always coming but never arrives?",
+      answer: "Tomorrow"
+    },
+  
   ];
 
   const questionElement = document.getElementById("question");
