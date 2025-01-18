@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Search Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(15, 20px);
+      gap: 15px;
+      justify-content: center;
+      margin: 15px auto;
+      max-width: 600px;
+    }
+
+    .cell {
+      font-size: 20px;
+      font-weight: bold;
+      /* background-color: #f0f0f0;
+      border: 1px solid #ddd; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .cell:hover {
+      background-color: #ddd;
+    }
+
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Visual Search Test</h1>
+  <p>Click on the hidden letter!</p>
+  <div class="grid" id="grid"></div>
+  <div id="result"></div>
+  <button id="restart">Restart</button>
+
+  <script>
+    const gridSize = 225; // Total number of cells
+    const gridElement = document.getElementById('grid');
+    const resultElement = document.getElementById('result');
+    const restartButton = document.getElementById('restart');
+
+    // Function to generate the grid
+    function generateGrid() {
+      gridElement.innerHTML = '';
+      resultElement.textContent = '';
+      const randomPosition = Math.floor(Math.random() * gridSize);
+      const normalLetter = 'O';
+      const hiddenLetter = 'Q';
+
+      for (let i = 0; i < gridSize; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = i === randomPosition ? hiddenLetter : normalLetter;
+        cell.addEventListener('click', () => handleCellClick(i === randomPosition));
+        gridElement.appendChild(cell);
+      }
+    }
+
+    // Handle cell click
+    function handleCellClick(isCorrect) {
+      if (isCorrect) {
+        resultElement.textContent = '🎉 Correct! You found the hidden letter!';
+      } else {
+        resultElement.textContent = '❌ Try again!';
+      }
+    }
+
+    // Restart button
+    restartButton.addEventListener('click', generateGrid);
+
+    // Initialize the grid
+    generateGrid();
+  </script>
+</body>
+</html>
