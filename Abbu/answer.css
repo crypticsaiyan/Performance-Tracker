@@ -1,3 +1,9 @@
+:root{
+    /* background-color: black; */
+}
+video{
+    width: 1000px;
+}
 .hidden {
     display: none; /* Hidden by default */
 }
