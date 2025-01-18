@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire with Response Time</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    .question {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+
+    .option {
+      display: block;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Survey Questionnaire</h1>
+
+  <div id="question-container"></div>
+  <div id="result"></div>
+
+  <script>
+    // List of questions with their options
+    const questions = [
+      {
+        question: "What is your favorite color?",
+        options: ["Red", "Blue", "Green", "Yellow"]
+      },
+      {
+        question: "What is your preferred programming language?",
+        options: ["JavaScript", "Python", "Java", "C++"]
+      },
+      {
+        question: "What is your favorite season?",
+        options: ["Winter", "Spring", "Summer", "Fall"]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let questionStartTime;
+    let responses = [];
+
+    const questionContainer = document.getElementById('question-container');
+    const resultContainer = document.getElementById('result');
+
+    // Function to display the question and options
+    function displayQuestion() {
+      const question = questions[currentQuestionIndex];
+
+      questionContainer.innerHTML = `
+        <div class="question">${question.question}</div>
+      `;
+
+      question.options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = option;
+        optionElement.setAttribute('data-option', option);
+        optionElement.setAttribute('data-index', index);
+        optionElement.addEventListener('click', handleAnswer);
+        questionContainer.appendChild(optionElement);
+      });
+
+      questionStartTime = Date.now(); // Start timing the response
+    }
+
+    // Function to handle answer selection
+    function handleAnswer(event) {
+      const selectedOption = event.target.getAttribute('data-option');
+      const timeTaken = Date.now() - questionStartTime; // Calculate response time
+
+      responses.push({
+        question: questions[currentQuestionIndex].question,
+        optionChosen: selectedOption,
+        responseTime: timeTaken
+      });
+
+      resultContainer.textContent = `You chose: ${selectedOption}. Time taken: ${timeTaken} ms.`;
+
+      // Disable further answers
+      const options = document.querySelectorAll('.option');
+      options.forEach(option => option.style.pointerEvents = 'none');
+
+      // Wait for 1 second and move to next question
+      setTimeout(nextQuestion, 1000);
+    }
+
+    // Function to go to next question
+    function nextQuestion() {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < questions.length) {
+        displayQuestion();
+      } else {
+        displayFinalResults();
+      }
+    }
+
+    // Function to display final results after all questions are answered
+    function displayFinalResults() {
+      let resultsHtml = '<h2>Survey Complete! Here are your responses:</h2>';
+      responses.forEach((response, index) => {
+        resultsHtml += `
+          <p><strong>Question ${index + 1}: </strong>${response.question}</p>
+          <p>Chosen Option: ${response.optionChosen}</p>
+          <p>Response Time: ${response.responseTime} ms</p>
+          <hr />
+        `;
+      });
+      resultContainer.innerHTML = resultsHtml;
+    }
+
+    // Initialize the first question
+    displayQuestion();
+  </script>
+</body>
+</html>
