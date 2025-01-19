@@ -103,54 +103,67 @@ nav div ul li img {
   padding: 7px;
 }
 
-.main div{color: white;}
-.big{
+.main div {
+  color: white;
+}
+.big {
   font-size: 50px;
   font-weight: 700;
   font-family: "Josefin Sans", sans-serif;
 }
 
 .page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: #04253b; */
-    color: white;
-    font-size: 24px;
-    transition: transform 1s ease;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #04253b; */
+  color: white;
+  font-size: 20px;
+  transition: transform 1s ease;
+}
+
+.next-page {
+  background-color: #1e3a56;
+  transform: translateY(100%);
+}
+
+.boxes {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  gap: auto;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+}
+
+.boxitem {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 20px;
   
-  .next-page {
-    background-color: #1e3a56;
-    transform: translateY(100%);
-  }
+  margin: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-  .boxes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-  }
+.boxitem:hover{
+  box-shadow: 0 0 5px;
+  backdrop-filter: blur(5px);
+}
 
-  .boxitem {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  html, body {
-    overflow: hidden;
+html,
+body {
+  overflow: hidden;
 }

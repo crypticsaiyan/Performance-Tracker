@@ -14,14 +14,16 @@
       margin: 20px;
     }
     canvas {
-        width: 800px;
-        height: 600px;
+      width: 500px;
+      height: 300px;
       margin: 20px auto;
+      background-color: #002233;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <h1>Game Score Chart</h1>
+
   <canvas id="scoreChart"></canvas>
 
   <script type="module">
@@ -97,9 +99,9 @@
 
             // Generate color coding based on scores
             const backgroundColors = scores.map(score => {
-              if (score >= 8) return 'rgba(75, 192, 75, 0.6)'; // Green
-              if (score >= 5 && score < 8) return 'rgba(255, 205, 86, 0.6)'; // Yellow
-              return 'rgba(255, 99, 132, 0.6)'; // Red
+              if (score >= 8) return 'rgba(61, 230, 247, 0.6)'; // Green
+              if (score >= 5 && score < 8) return '#2f626af5'; // Yellow
+              return '#c16054f5'; // Red
             });
 
             // Update the chart data
