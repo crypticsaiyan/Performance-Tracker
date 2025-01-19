@@ -273,3 +273,13 @@ a{
 .register-link p a:hover {
   text-decoration: underline;
 }
+
+.back {
+  font-size: 40px;
+}
+
+
+span a {
+  text-decoration: none;
+  color: white;
+}
