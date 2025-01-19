@@ -63,46 +63,81 @@ async function appendScoreToGame(userId, gameName, score) {
 }
 
 const gridSize = 225; // Total number of cells
-const gridElement = document.getElementById('grid');
-const resultElement = document.getElementById('result');
-const restartButton = document.getElementById('restart');
+    const gridElement = document.getElementById('grid');
+    const resultElement = document.getElementById('result');
+    const restartButton = document.getElementById('restart');
+    const summaryElement = document.getElementById('summary');
 
-let startTime; // To store the start time
+    let correctGuesses = 0;
+    let trialCount = 0;
+    const maxTrials = 5;
+    let startTime;
 
-// Function to generate the grid
-function generateGrid() {
-  gridElement.innerHTML = '';
-  resultElement.textContent = '';
-  const randomPosition = Math.floor(Math.random() * gridSize);
-  const normalLetter = 'O';
-  const hiddenLetter = 'Q';
+    // Function to generate the grid
+    function generateGrid() {
+      gridElement.innerHTML = '';
+      resultElement.textContent = '';
+      if (trialCount === 0) {
+        startTime = new Date(); // Start timing on the first trial
+      }
 
-  startTime = new Date(); // Capture the time when the grid is generated
+      const randomPosition = Math.floor(Math.random() * gridSize);
+      const normalLetter = 'O';
+      const hiddenLetter = 'Q';
 
-  for (let i = 0; i < gridSize; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.textContent = i === randomPosition ? hiddenLetter : normalLetter;
-    cell.addEventListener('click', () => handleCellClick(i === randomPosition));
-    gridElement.appendChild(cell);
-  }
-}
+      for (let i = 0; i < gridSize; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = i === randomPosition ? hiddenLetter : normalLetter;
+        cell.addEventListener('click', () => handleCellClick(i === randomPosition));
+        gridElement.appendChild(cell);
+      }
+    }
 
-// Handle cell click
-function handleCellClick(isCorrect) {
-  if (isCorrect) {
-    const endTime = new Date(); // Capture the time when the correct cell is clicked
-    const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // Calculate time difference in seconds
-    console.log(timeTaken);
-    resultElement.textContent = `🎉 Correct! You found the hidden letter in ${timeTaken} seconds!`;
-    appendScoreToGame(userId,"game3", timeTaken)
-  } else {
-    resultElement.textContent = '❌ Try again!';
-  }
-}
+    // Handle cell click
+    function handleCellClick(isCorrect) {
+      if (trialCount >= maxTrials) return;
 
-// Restart button
-restartButton.addEventListener('click', generateGrid);
+      if (isCorrect) {
+        correctGuesses++;
+        resultElement.textContent = '🎉 Correct! You found the hidden letter!';
+      } else {
+        resultElement.textContent = '❌ Try again!';
+        return; // Don't count this click as a trial if incorrect
+      }
 
-// Initialize the grid
-generateGrid();
+      trialCount++;
+
+      if (trialCount < maxTrials) {
+        setTimeout(generateGrid, 1000); // Load the next grid after 1 second
+      } else {
+        endGame();
+      }
+    }
+
+    // End game and display summary
+    function endGame() {
+      const endTime = new Date();
+      const totalTime = ((endTime - startTime) / 1000).toFixed(2); // Time in seconds
+      summaryElement.innerHTML = `
+        <p>Game Over!</p>
+        <p>Total Correct Guesses: ${correctGuesses} out of ${maxTrials}</p>
+        <p>Total Time Taken: ${totalTime} seconds</p>
+      `;
+     
+      resultElement.textContent = '';
+      let score=Math.floor((1/totalTime)*1000)
+      console.log(score);
+      appendScoreToGame(userId,"game3", score)
+    }
+
+    // Restart button
+    restartButton.addEventListener('click', () => {
+      correctGuesses = 0;
+      trialCount = 0;
+      summaryElement.innerHTML = '';
+      generateGrid();
+    });
+
+    // Initialize the grid
+    generateGrid();
