@@ -21,7 +21,7 @@ signupbtn.addEventListener("click", (event) => {
   event.preventDefault();
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
-  let confirmp = document.getElementById("confirm-password").value;
+  let confirmp = document.getElementById("confirmpassword").value;
   
 
   if(password==confirmp)
@@ -29,6 +29,7 @@ signupbtn.addEventListener("click", (event) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      window.location.href = "../login/login.html";
     })
     .catch((error) => {
       const errorCode = error.code;
