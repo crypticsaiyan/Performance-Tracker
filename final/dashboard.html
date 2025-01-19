@@ -81,11 +81,129 @@
           style="border: none"
         >
         </iframe>
-        <p id="5"></p>
+        <p id="g5"></p>
         <caption>
           Focus Test
         </caption>
       </div>
     </div>
+    <script>
+      const score = 0;
+      
+      //attention test
+
+      if (score < 33) {
+        document.getElementById(
+          "g3"
+        ).innerHTML = `Avoid multitasking. Focus on one activity at a time to train your brain to maintain attention.
+        Practice daily meditation to improve sustained attention and mental clarity.
+        Practice exercises where you focus on identifying a stimulus while ignoring distractions.
+        Incorporate coordination-heavy activities like table tennis or martial arts.
+        Try to minimize external distractions.
+        Keep Practicing.`;
+      } else if (score > 33 || score < 66) {
+        document.getElementById(
+          "g3"
+        ).innerHTML = `You are almost there! Visualize yourself succeeding in the test to boost confidence and readiness.
+Practice daily meditation to improve sustained attention and mental clarity.
+Keep Practicing the game for reducing the reaction time.`;
+      } else {
+        document.getElementById(
+          "g3"
+        ).innerHTML = `Good Job Keep Practicing for reducing the time!
+`;
+      }
+
+      //logic test
+
+      if (score <= 3) {
+        document.getElementById(
+          "g2"
+        ).innerHTML = `Memorize Multiplication Tables.<br>
+Start with simple problems and gradually move to complex ones.<br>
+Break Numbers into parts while calculations to make them easier.<br>
+Round numbers to the nearest 10 or 100 for quick approximations.<br>
+Add numbers in pairs or group smaller numbers first and work backward from the larger number.<br>`;
+      } else if (score > 3 || score <= 7) {
+        document.getElementById(
+          "g2"
+        ).innerHTML = `Break Numbers into parts while calculations to make them easier.<br>
+Round numbers to the nearest 10 or 100 for quick approximations.<br>`;
+      } else {
+        document.getElementById("g2").innerHTML = `Maintain consistency.<br>`;
+      }
+
+      //focus test
+
+      if (score < 6) {
+        document.getElementById(
+          "g5"
+        ).innerHTML = `Answer logical questions frequently to make responses almost automatic.<br>
+Train yourself to recognize common patterns or themes in questions.<br>
+Try to quickly read the question.<br>
+Try to maintain focus throughout the questions.<br>
+Try to minimise distractions during the test.<br>
+Practice mental arithmetic to improve the brain’s ability to handle simple logic quickly.<br>`;
+      } else if (score >= 6 || score <= 12) {
+        document.getElementById(
+          "g5"
+        ).innerHTML = `Eliminate unnecessary mental clutter. Focus on one task at a time to improve response speed.<br>
+Try to recognize common patterns or themes in questions.<br>
+Perform tasks requiring simultaneous focus, like responding to questions while balancing or running.<br>
+Practice more tests.<br>
+Practice more.<br>`;
+      } else {
+        document.getElementById(
+          "g5"
+        ).innerHTML = `Keep Practicing to maintain consistency.Well done!<br>`;
+      }
+
+      //memory test
+      if (score <= 3) {
+        document.getElementById(
+          "g1"
+        ).innerHTML = `Minimize distractions during the 30-second viewing period.<br>
+Group words into smaller categories or meaningful chunks.<br>
+Build a vivid story linking all the words in sequence or link each word to something personal or familiar.<br>
+Repeat the words silently or aloud while viewing them.<br>
+Practice Meditation daily for atleast 15 minutes.<br>
+Practice More.<br>`;
+      } else if (score > 3 || score <= 6) {
+        document.getElementById(
+          "g1"
+        ).innerHTML = `Set a timer to simulate the 30-second memorization period and recall phase.<br>
+Practice regularly to get better at quick encoding and retrieval.<br>
+Build a vivid story linking all the words in sequence or link each word to something personal or familiar.<br>
+Practice More.<br>`;
+      } else {
+        document.getElementById(
+          "g1"
+        ).innerHTML = `Well Done! Maintain Consistency<br>`;
+      }
+
+      //retention
+
+      if (score < 5) {
+        document.getElementById("g4").innerHTML = `Partner reaction drill: <br>
+    Have someone drop an object (like a ruler) unexpectedly and catch it mid-air.<br>
+    Toss a ball against a wall and catch it with one or both hands.<br>
+    Strength and Speed Training:<br>
+    
+Minimize distractions while performing.<br>
+Regular meditation enhances focus and reduces the time it takes for your brain to process stimuli.<br>
+Practice More.<br>`;
+      } else if (score >= 5 || score < 10) {
+        document.getElementById(
+          "g4"
+        ).innerHTML = `Stress and tension can slow reactions. Practice deep breathing and relaxation techniques.<br>
+Regular meditation enhances focus and reduces the time it takes for your brain to process stimuli.<br>
+Reduce Distractions and increase focus during the game.<br>
+Practice More.<br>`;
+      } else {
+        document.getElementById(
+          "g4"
+        ).innerHTML = `Good Job! Keep Practicing to maintain consistency.<br>`;
+      }
+    </script>
   </body>
 </html>
